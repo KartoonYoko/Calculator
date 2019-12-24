@@ -102,63 +102,21 @@ void MainWindow::on_pushButton_clearAll_clicked()
 
 void MainWindow::on_pushButton_equal_clicked()
 { 
-       bool exc = false; // для получения исключения
+    exc = false; // для получения исключения
 
     if(calc.getStr() != ""){  // проверка на что-то
         ui->plainTextEdit_show->insertPlainText(calc.getStr());
-        makeCalculation(exc);
+        calc.makeCalculation(exc);
 
     }
     if(exc == true)  // если исключение получено
         ui->plainTextEdit_enter->setPlainText("Неверное значение!");
     else
         ui->plainTextEdit_enter->setPlainText(calc.resulToString());
+     exc = false;
 
 }
 
-void MainWindow::makeCalculation(bool &exc){
-    if(lastAction == PLUS){
-        calc.add();
-    }
-    if(lastAction == MINUS){
-        calc.sub();
-    }
-    if(lastAction == MULT){
-        calc.mult();
-    }
-    if(lastAction == DIV){
-        try {
-             calc.div();
-        } catch (exceptionCalc e) {
-            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
-            exc = true;
-        }
-    }
-    if(lastAction == POWER){
-        calc.power();
-    }
-
-}
-
-void MainWindow::makeCalculation(){
-    if(lastAction == PLUS){
-        calc.add();
-    }
-    if(lastAction == MINUS){
-        calc.sub();
-    }
-    if(lastAction == MULT){
-        calc.mult();
-    }
-    if(lastAction == DIV){
-        calc.div();
-    }
-    if(lastAction == POWER){
-        calc.power();
-    }
-
-
-}
 
 void MainWindow::on_pushButton_add_clicked()
 {
@@ -168,14 +126,20 @@ void MainWindow::on_pushButton_add_clicked()
         ui->plainTextEdit_enter->clear();
         firstOperation = false;
         calc.resetStr();
-        lastAction = PLUS;
+        calc.lastAction = PLUS;
     }
     else{                   // считает предыдущий ввод
-        makeCalculation();
-        ui->plainTextEdit_show->insertPlainText(calc.getStr() + " + ");
+        calc.makeCalculation(exc);
+        if(exc == true)  // если исключение получено
+        {
+            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
+            exc = false;
+        }
+        else
+            ui->plainTextEdit_show->insertPlainText(calc.getStr() + " + ");
         ui->plainTextEdit_enter->clear();
         calc.resetStr();
-        lastAction = PLUS;
+        calc.lastAction = PLUS;
 
     }
 }
@@ -188,14 +152,20 @@ void MainWindow::on_pushButton_subtract_clicked()
         ui->plainTextEdit_enter->clear();
         firstOperation = false;
         calc.resetStr();
-        lastAction = MINUS;
+        calc.lastAction = MINUS;
     }
     else{                    // считает предыдущий ввод
-        makeCalculation();
-        ui->plainTextEdit_show->insertPlainText(calc.getStr() + " - ");
+        calc.makeCalculation(exc);
+        if(exc == true)  // если исключение получено
+        {
+            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
+            exc = false;
+        }
+        else
+            ui->plainTextEdit_show->insertPlainText(calc.getStr() + " - ");
         ui->plainTextEdit_enter->clear();
         calc.resetStr();
-        lastAction = MINUS;
+        calc.lastAction = MINUS;
     }
 }
 
@@ -207,41 +177,54 @@ void MainWindow::on_pushButton_multiply_clicked()
         ui->plainTextEdit_enter->clear();
         firstOperation = false;
         calc.resetStr();
-        lastAction = MULT;
+        calc.lastAction = MULT;
     }
     else{      // считает предыдущий ввод
-        makeCalculation();
+        calc.makeCalculation(exc);
 
         //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
         //ui->plainTextEdit_show->textCursor().insertText("(");
-        ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") * ");
+        if(exc == true)  // если исключение получено
+        {
+            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
+            exc = false;
+        }
+        else
+            ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") * ");
         ui->plainTextEdit_enter->clear();
 
         calc.resetStr();
-        lastAction = MULT;
+        calc.lastAction = MULT;
     }
 }
 
 void MainWindow::on_pushButton_divide_clicked()
 {
+
     if(firstOperation == true){
         calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
         ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " / ");
         ui->plainTextEdit_enter->clear();
         firstOperation = false;
         calc.resetStr();
-        lastAction = DIV;
+        calc.lastAction = DIV;
     }
     else{      // считает предыдущий ввод
-        makeCalculation();
+        calc.makeCalculation(exc);
 
         //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
         //ui->plainTextEdit_show->textCursor().insertText("(");
-        ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") / ");
+        if(exc == true)  // если исключение получено
+        {
+            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
+            exc = false;
+        }
+        else
+            ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") / ");
         ui->plainTextEdit_enter->clear();
 
         calc.resetStr();
-        lastAction = DIV;
+        calc.lastAction = DIV;
     }
 }
 
@@ -274,23 +257,21 @@ void MainWindow::on_pushButton_power_clicked()
         ui->plainTextEdit_enter->clear();
         firstOperation = false;
         calc.resetStr();
-        lastAction = POWER;
+        calc.lastAction = POWER;
     }
     else{      // считает предыдущий ввод
-        makeCalculation();
-
-        //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
-        QString bufStr = ui->plainTextEdit_show->toPlainText();
-        bufStr = "(" + bufStr;
-        //bufStr.insert(0, "(");
-        //ui->plainTextEdit_show->textCursor().insertText("(");
-        //ui->plainTextEdit_show->setPlainText(bufStr);
-        //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::End);
-        ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") ^ ");
+        calc.makeCalculation(exc);
+        if(exc == true)  // если исключение получено
+        {
+            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
+            exc = false;
+        }
+        else
+            ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") ^ ");
         ui->plainTextEdit_enter->clear();
 
         calc.resetStr();
-        lastAction = POWER;
+        calc.lastAction = POWER;
     }
 }
 

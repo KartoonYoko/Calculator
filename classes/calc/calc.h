@@ -7,7 +7,9 @@
 
 typedef double typeOfCalc;
 
-enum exceptionCalc { invalidValue };
+enum exceptionCalc { invalidValue };  // исключения
+
+enum sign {PLUS, MINUS, MULT, DIV, POWER}; // действия
 
 class Calc
 {
@@ -19,6 +21,10 @@ private:
 
 public:
 
+    sign lastAction; // хранит предпоследний введенный знак
+
+    void makeCalculation();
+    void makeCalculation(bool &exc);
 
     Calc();
     void reset();// сбрасывает значения на начальные

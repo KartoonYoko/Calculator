@@ -130,3 +130,48 @@ void Calc::power(){
 void Calc::resizeStr(int num){
     this->_s.resize(num);
 }
+
+
+
+void Calc::makeCalculation(bool &exc){
+    if(lastAction == PLUS){
+        add();
+    }
+    if(lastAction == MINUS){
+        sub();
+    }
+    if(lastAction == MULT){
+        mult();
+    }
+    if(lastAction == DIV){
+        try {
+             div();
+        } catch (exceptionCalc e) {
+            exc = true;
+        }
+    }
+    if(lastAction == POWER){
+        power();
+    }
+
+}
+
+void Calc::makeCalculation(){
+    if(lastAction == PLUS){
+        add();
+    }
+    if(lastAction == MINUS){
+        sub();
+    }
+    if(lastAction == MULT){
+        mult();
+    }
+    if(lastAction == DIV){
+        div();
+    }
+    if(lastAction == POWER){
+        power();
+    }
+
+
+}

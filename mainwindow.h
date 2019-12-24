@@ -20,22 +20,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
-
-
     Calc calc; // класс калькулятор с методами для вычисления
     QString str; // хранит вычесление
     bool firstOperation = true; // проверка на первую операцию
-
-    enum sign {PLUS, MINUS, MULT, DIV, POWER};
-    sign lastAction; // хранит предпоследний введенный знак
-
-    // значения для возведения в степень
-    double buf;
-    bool firstPower = true;
-
-    void makeCalculation();
-    void makeCalculation(bool &exc);
+    bool exc = false; // для получения исключения
 
 private slots:
     void on_pushButton_1_clicked();
