@@ -259,12 +259,16 @@ void MainWindow::on_pushButton_changeOcthorpe_clicked()
 
 void MainWindow::on_pushButton_ln_clicked()
 {
+    ui->plainTextEdit_enter->setPlainText("ln(" + calc.getStr() + ")");
     calc.lnStr();
+
 }
 
 void MainWindow::on_pushButton_exp_clicked()
 {
+    ui->plainTextEdit_enter->setPlainText("exp(" + calc.getStr() + ")");
     calc.expStr();
+
 }
 
 void MainWindow::on_pushButton_power_clicked()
@@ -274,17 +278,23 @@ void MainWindow::on_pushButton_power_clicked()
 
 void MainWindow::on_pushButton_cos_clicked()
 {
+    ui->plainTextEdit_enter->setPlainText("cos(" + calc.getStr() + ")");
     calc.cosStr();
+
 }
 
 void MainWindow::on_pushButton_sin_clicked()
 {
+    ui->plainTextEdit_enter->setPlainText("sin(" + calc.getStr() + ")");
     calc.sinStr();
+
 }
 
 void MainWindow::on_pushButton_tan_clicked()
 {
+    ui->plainTextEdit_enter->setPlainText("tan(" + calc.getStr() + ")");
     calc.tanStr();
+
 }
 
 void MainWindow::on_pushButton_clearOneLetter_clicked()
