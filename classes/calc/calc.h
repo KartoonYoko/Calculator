@@ -48,6 +48,7 @@ public:
     void lnStr();
     void expStr();
     void powerStr(double num);
+    void power();
 
 
     void add(typeOfCalc num);
