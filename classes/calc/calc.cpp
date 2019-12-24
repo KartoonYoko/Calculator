@@ -123,10 +123,7 @@ void Calc::powerStr(double num){
     this->_s = QString::number(result);
 }
 void Calc::power(){
-//    double result = this->_result;
-//    double power = this->_s.toDouble();
-//    for(int i = 1; i < trunc(power); i++)
-//        this->_result *= result;
+
     this->setResult(pow(this->getResult(), trunc(this->_s.toDouble())));
 }
 

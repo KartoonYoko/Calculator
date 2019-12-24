@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>271</width>
-    <height>557</height>
+    <height>548</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,13 +22,13 @@
   <property name="minimumSize">
    <size>
     <width>271</width>
-    <height>557</height>
+    <height>548</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>271</width>
-    <height>557</height>
+    <height>548</height>
    </size>
   </property>
   <property name="palette">
@@ -163,7 +163,7 @@
       <x>0</x>
       <y>0</y>
       <width>271</width>
-      <height>506</height>
+      <height>508</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_Main" stretch="0,2,2,2,2,2,2">

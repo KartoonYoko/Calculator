@@ -76,8 +76,10 @@ void MainWindow::on_pushButton_9_clicked()
 
 void MainWindow::on_pushButton_point_clicked()
 {
-    calc.appendStr(".");
-    ui->plainTextEdit_enter->insertPlainText(".");
+    if(calc.getStr().contains(".") == false)
+    {   calc.appendStr(".");
+        ui->plainTextEdit_enter->insertPlainText(".");
+    }
 }
 
 void MainWindow::on_pushButton_0_clicked()
@@ -274,7 +276,8 @@ void MainWindow::on_pushButton_power_clicked()
         makeCalculation();
 
         //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
-        //QString bufStr = ui->plainTextEdit_show->toPlainText();
+        QString bufStr = ui->plainTextEdit_show->toPlainText();
+        bufStr = "(" + bufStr;
         //bufStr.insert(0, "(");
         //ui->plainTextEdit_show->textCursor().insertText("(");
         //ui->plainTextEdit_show->setPlainText(bufStr);
