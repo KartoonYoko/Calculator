@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "../../Calculator/untitled/classes/calc/calc.h"
+//#include "../Calculator/classes/calc/calc.h"
 #include <QTextCursor>
 
 
@@ -26,9 +27,12 @@ public:
     QString str; // хранит вычесление
     bool firstOperation = true; // проверка на первую операцию
 
-    enum sign {PLUS, MINUS, MULT, DIV};
+    enum sign {PLUS, MINUS, MULT, DIV, POWER};
     sign lastAction; // хранит предпоследний введенный знак
 
+    // значения для возведения в степень
+    double buf;
+    bool firstPower = true;
 
     void makeCalculation();
     void makeCalculation(bool &exc);

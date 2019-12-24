@@ -76,8 +76,10 @@ void MainWindow::on_pushButton_9_clicked()
 
 void MainWindow::on_pushButton_point_clicked()
 {
-    calc.appendStr(".");
-    ui->plainTextEdit_enter->insertPlainText(".");
+    if(calc.getStr().contains(".") == false)
+    {   calc.appendStr(".");
+        ui->plainTextEdit_enter->insertPlainText(".");
+    }
 }
 
 void MainWindow::on_pushButton_0_clicked()
@@ -100,28 +102,14 @@ void MainWindow::on_pushButton_clearAll_clicked()
 
 void MainWindow::on_pushButton_equal_clicked()
 { 
-//       std::string expression_string = "clamp(-1.0,sin(2 * pi * x) + cos(x / 2 * pi),+1.0)";
+       bool exc = false; // для получения исключения
 
-//       double x;
-
-//       exprtk::symbol_table<double> symbol_table;
-//       symbol_table.add_variable("x",x);
-//       symbol_table.add_constants();
-
-//       exprtk::expression<double> expression;
-//       expression.register_symbol_table(symbol_table);
-
-//       exprtk::parser<double> parser;
-//       parser.compile(expression_string,expression);
-
-       bool exc = false;
-
-    if(calc.getStr() != ""){
+    if(calc.getStr() != ""){  // проверка на что-то
         ui->plainTextEdit_show->insertPlainText(calc.getStr());
         makeCalculation(exc);
 
     }
-    if(exc == true)
+    if(exc == true)  // если исключение получено
         ui->plainTextEdit_enter->setPlainText("Неверное значение!");
     else
         ui->plainTextEdit_enter->setPlainText(calc.resulToString());
@@ -146,6 +134,9 @@ void MainWindow::makeCalculation(bool &exc){
             exc = true;
         }
     }
+    if(lastAction == POWER){
+        calc.power();
+    }
 
 }
 
@@ -162,6 +153,10 @@ void MainWindow::makeCalculation(){
     if(lastAction == DIV){
         calc.div();
     }
+    if(lastAction == POWER){
+        calc.power();
+    }
+
 
 }
 
@@ -217,8 +212,8 @@ void MainWindow::on_pushButton_multiply_clicked()
     else{      // считает предыдущий ввод
         makeCalculation();
 
-        ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
-        ui->plainTextEdit_show->textCursor().insertText("(");
+        //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
+        //ui->plainTextEdit_show->textCursor().insertText("(");
         ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") * ");
         ui->plainTextEdit_enter->clear();
 
@@ -240,8 +235,8 @@ void MainWindow::on_pushButton_divide_clicked()
     else{      // считает предыдущий ввод
         makeCalculation();
 
-        ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
-        ui->plainTextEdit_show->textCursor().insertText("(");
+        //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
+        //ui->plainTextEdit_show->textCursor().insertText("(");
         ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") / ");
         ui->plainTextEdit_enter->clear();
 
@@ -273,7 +268,30 @@ void MainWindow::on_pushButton_exp_clicked()
 
 void MainWindow::on_pushButton_power_clicked()
 {
-    //calc.powerStr();
+    if(firstOperation == true){
+        calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
+        ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " ^ ");
+        ui->plainTextEdit_enter->clear();
+        firstOperation = false;
+        calc.resetStr();
+        lastAction = POWER;
+    }
+    else{      // считает предыдущий ввод
+        makeCalculation();
+
+        //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::Start);
+        QString bufStr = ui->plainTextEdit_show->toPlainText();
+        bufStr = "(" + bufStr;
+        //bufStr.insert(0, "(");
+        //ui->plainTextEdit_show->textCursor().insertText("(");
+        //ui->plainTextEdit_show->setPlainText(bufStr);
+        //ui->plainTextEdit_show->textCursor().movePosition(QTextCursor::End);
+        ui->plainTextEdit_show->insertPlainText(calc.getStr() + ") ^ ");
+        ui->plainTextEdit_enter->clear();
+
+        calc.resetStr();
+        lastAction = POWER;
+    }
 }
 
 void MainWindow::on_pushButton_cos_clicked()
@@ -285,6 +303,7 @@ void MainWindow::on_pushButton_cos_clicked()
 
 void MainWindow::on_pushButton_sin_clicked()
 {
+
     ui->plainTextEdit_enter->setPlainText("sin(" + calc.getStr() + ")");
     calc.sinStr();
 
