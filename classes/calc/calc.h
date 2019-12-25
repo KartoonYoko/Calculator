@@ -9,7 +9,7 @@ typedef double typeOfCalc;
 
 enum exceptionCalc { invalidValue };  // исключения
 
-enum sign {PLUS, MINUS, MULT, DIV, POWER}; // действия
+enum sign {PLUS, MINUS, MULT, DIV, POWER, EQUALL, NOTEQUALL}; // действия
 
 class Calc
 {

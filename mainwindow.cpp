@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     this->setMaximumWidth(280);
-    this->setMaximumHeight(580);
-    this->setMinimumSize(280, 580);
+    this->setMaximumHeight(530);
+    this->setMinimumSize(280, 530);
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/image/calc.png")); // doesnt work
    // QTextCursor cursor;
@@ -26,73 +26,102 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_1_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(1);
-    ui->plainTextEdit_enter->insertPlainText("1");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 void MainWindow::on_pushButton_2_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
    calc.appendStr(2);
-   ui->plainTextEdit_enter->insertPlainText("2");
+   ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(3);
-    ui->plainTextEdit_enter->insertPlainText("3");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_4_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(4);
-    ui->plainTextEdit_enter->insertPlainText("4");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_5_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(5);
-    ui->plainTextEdit_enter->insertPlainText("5");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_6_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(6);
-    ui->plainTextEdit_enter->insertPlainText("6");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_7_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(7);
-    ui->plainTextEdit_enter->insertPlainText("7");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_8_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(8);
-    ui->plainTextEdit_enter->insertPlainText("8");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_9_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(9);
-    ui->plainTextEdit_enter->insertPlainText("9");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
-void MainWindow::on_pushButton_point_clicked()
+void MainWindow::on_pushButton_point_clicked() /// todo:
 {
+
     if(calc.getStr().contains(".") == false)
-    {   calc.appendStr(".");
-        ui->plainTextEdit_enter->insertPlainText(".");
+    {
+        if(calc.getStr() == ""){
+            calc.setStr("0.");
+            ui->plainTextEdit_enter->setPlainText(calc.getStr());
+        }
+        else {
+            calc.appendStr(".");
+            ui->plainTextEdit_enter->setPlainText(calc.getStr());
+        }
     }
 }
 
 void MainWindow::on_pushButton_0_clicked()
 {
+    if(calc.lastAction == EQUALL) // если посл. действие "=", то стираем предыдущие действия и заносим ответ предыдущего как первый ввод
+        on_pushButton_clearAll_clicked();
     calc.appendStr(0);
-    ui->plainTextEdit_enter->insertPlainText("0");
+    ui->plainTextEdit_enter->setPlainText(calc.getStr());
 }
 
 void MainWindow::on_pushButton_clearAll_clicked()
 {
+    calc.lastAction = NOTEQUALL;
     firstOperation = true;
     ui->plainTextEdit_show->clear();
     ui->plainTextEdit_enter->clear();
@@ -112,6 +141,7 @@ void MainWindow::on_pushButton_equal_clicked()
         ui->plainTextEdit_show->insertPlainText(calc.getStr());
         calc.makeCalculation(exc);
         calc.resetStr();
+        calc.lastAction = EQUALL;
 
        if(exc == true)  // если исключение получено
         {
@@ -133,6 +163,7 @@ void MainWindow::on_pushButton_equal_clicked()
 
 void MainWindow::on_pushButton_add_clicked()
 {
+    if(calc.lastAction != EQUALL)
     if(firstOperation == true){
         calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
         ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " + ");
@@ -159,6 +190,7 @@ void MainWindow::on_pushButton_add_clicked()
 
 void MainWindow::on_pushButton_subtract_clicked()
 {
+    if(calc.lastAction != EQUALL)
     if(firstOperation == true){
         calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
         ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " - ");
@@ -184,6 +216,7 @@ void MainWindow::on_pushButton_subtract_clicked()
 
 void MainWindow::on_pushButton_multiply_clicked()
 {
+    if(calc.lastAction != EQUALL)
     if(firstOperation == true){
         calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
         ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " * ");
@@ -213,7 +246,7 @@ void MainWindow::on_pushButton_multiply_clicked()
 
 void MainWindow::on_pushButton_divide_clicked()
 {
-
+    if(calc.lastAction != EQUALL)
     if(firstOperation == true){
         calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
         ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " / ");
@@ -269,6 +302,7 @@ void MainWindow::on_pushButton_exp_clicked()
 
 void MainWindow::on_pushButton_power_clicked()
 {
+    if(calc.lastAction != EQUALL)
     if(firstOperation == true){
         calc.setResult(calc.getStr().toDouble()); // т.к. это первое вычесление - сразу заносит введенное значение в результат
         ui->plainTextEdit_show->insertPlainText(calc.resulToString() + " ^ ");
@@ -332,18 +366,18 @@ void MainWindow::on_pushButton_history_clicked()
         ui->listWidget->setVisible(isHistoryVisible);
         isHistoryVisible = true;
         this->setMaximumWidth(280);
-        this->setMaximumHeight(580);
+        this->setMaximumHeight(560);
         this->setMinimumWidth(280);
-        this->resize(280, 580);
+        this->resize(280, 560);
 
     }
     else{
         ui->listWidget->setVisible(isHistoryVisible);
         isHistoryVisible = false;
         this->setMaximumWidth(600);
-        this->setMaximumHeight(580);
+        this->setMaximumHeight(560);
         this->setMinimumWidth(600);
-        this->resize(600, 580);
+        this->resize(600, 560);
     }
 
 }
