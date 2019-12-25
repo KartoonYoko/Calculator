@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>271</width>
-    <height>548</height>
+    <width>280</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,14 +21,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>271</width>
-    <height>548</height>
+    <width>280</width>
+    <height>580</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>271</width>
-    <height>548</height>
+    <width>280</width>
+    <height>580</height>
    </size>
   </property>
   <property name="palette">
@@ -157,13 +157,16 @@
     <normaloff>image/calculator-flat.png</normaloff>image/calculator-flat.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>271</width>
-      <height>508</height>
+      <width>279</width>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_Main" stretch="0,2,2,2,2,2,2">
@@ -410,7 +413,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_clearOneLetter">
+        <widget class="QPushButton" name="pushButton_backSpace">
          <property name="minimumSize">
           <size>
            <width>50</width>
@@ -872,13 +875,25 @@
      </item>
     </layout>
    </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>0</y>
+      <width>321</width>
+      <height>531</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>listWidget</zorder>
+   <zorder>verticalLayoutWidget_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>271</width>
+     <width>280</width>
      <height>21</height>
     </rect>
    </property>

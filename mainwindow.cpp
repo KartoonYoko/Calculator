@@ -8,11 +8,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-
+    this->setMaximumWidth(280);
+    this->setMaximumHeight(580);
+    this->setMinimumSize(280, 580);
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/image/calc.png")); // doesnt work
    // QTextCursor cursor;
    // ui->plainTextEdit_show->setTextCursor(cursor);
+    ui->listWidget->hide();
 }
 
 MainWindow::~MainWindow()
@@ -104,16 +107,26 @@ void MainWindow::on_pushButton_equal_clicked()
 { 
     exc = false; // для получения исключения
 
-    if(calc.getStr() != ""){  // проверка на что-то
+    if(calc.getStr() != ""){  // проверка на повторное нажатие
+                                // если нажатие производилось, то str = "", иначе str хранит какое-то значение
         ui->plainTextEdit_show->insertPlainText(calc.getStr());
         calc.makeCalculation(exc);
+        calc.resetStr();
 
+       if(exc == true)  // если исключение получено
+        {
+            ui->plainTextEdit_enter->setPlainText("Неверное значение!");
+            exc = false;
+        }
+        else{
+            ui->plainTextEdit_enter->setPlainText(calc.resulToString());
+            sHistory a;
+            a.result = calc.getResult();
+            a.str = ui->plainTextEdit_show->toPlainText();
+            history.push_back(a);
+            ui->listWidget->addItem(a.str + " = " + QString::number(a.result));
+       }
     }
-    if(exc == true)  // если исключение получено
-        ui->plainTextEdit_enter->setPlainText("Неверное значение!");
-    else
-        ui->plainTextEdit_enter->setPlainText(calc.resulToString());
-     exc = false;
 
 }
 
@@ -237,16 +250,21 @@ void MainWindow::on_pushButton_changeOcthorpe_clicked()
 
 void MainWindow::on_pushButton_ln_clicked()
 {
-    ui->plainTextEdit_enter->setPlainText("ln(" + calc.getStr() + ")");
-    calc.lnStr();
+    if(calc.getStr() != ""){  // проверка на повторное нажатие
+                                // если нажатие производилось, то str = "", иначе str хранит какое-то значение
+        ui->plainTextEdit_enter->setPlainText("ln(" + calc.getStr() + ")");
+        calc.lnStr();
+    }
 
 }
 
 void MainWindow::on_pushButton_exp_clicked()
 {
+    if(calc.getStr() != ""){  // проверка на повторное нажатие
+                                // если нажатие производилось, то str = "", иначе str хранит какое-то значение
     ui->plainTextEdit_enter->setPlainText("exp(" + calc.getStr() + ")");
     calc.expStr();
-
+    }
 }
 
 void MainWindow::on_pushButton_power_clicked()
@@ -277,28 +295,55 @@ void MainWindow::on_pushButton_power_clicked()
 
 void MainWindow::on_pushButton_cos_clicked()
 {
-    ui->plainTextEdit_enter->setPlainText("cos(" + calc.getStr() + ")");
-    calc.cosStr();
-
+    if(calc.getStr() != ""){  // проверка на повторное нажатие
+                                // если нажатие производилось, то str = "", иначе str хранит какое-то значение
+        ui->plainTextEdit_enter->setPlainText("cos(" + calc.getStr() + ")");
+        calc.cosStr();
+    }
 }
 
 void MainWindow::on_pushButton_sin_clicked()
 {
-
-    ui->plainTextEdit_enter->setPlainText("sin(" + calc.getStr() + ")");
-    calc.sinStr();
-
+    if(calc.getStr() != ""){  // проверка на повторное нажатие
+                                // если нажатие производилось, то str = "", иначе str хранит какое-то значение
+        ui->plainTextEdit_enter->setPlainText("sin(" + calc.getStr() + ")");
+        calc.sinStr();
+    }
 }
 
 void MainWindow::on_pushButton_tan_clicked()
 {
-    ui->plainTextEdit_enter->setPlainText("tan(" + calc.getStr() + ")");
-    calc.tanStr();
-
+    if(calc.getStr() != ""){  // проверка на повторное нажатие
+                                // если нажатие производилось, то str = "", иначе str хранит какое-то значение
+     ui->plainTextEdit_enter->setPlainText("tan(" + calc.getStr() + ")");
+        calc.tanStr();
+    }
 }
 
-void MainWindow::on_pushButton_clearOneLetter_clicked()
+void MainWindow::on_pushButton_backSpace_clicked()
 {
     calc.resizeStr(calc.getStr().size() - 1);
     ui->plainTextEdit_enter->setPlainText(calc.getStr());
+}
+
+void MainWindow::on_pushButton_history_clicked()
+{
+    if(isHistoryVisible == false){
+        ui->listWidget->setVisible(isHistoryVisible);
+        isHistoryVisible = true;
+        this->setMaximumWidth(280);
+        this->setMaximumHeight(580);
+        this->setMinimumWidth(280);
+        this->resize(280, 580);
+
+    }
+    else{
+        ui->listWidget->setVisible(isHistoryVisible);
+        isHistoryVisible = false;
+        this->setMaximumWidth(600);
+        this->setMaximumHeight(580);
+        this->setMinimumWidth(600);
+        this->resize(600, 580);
+    }
+
 }

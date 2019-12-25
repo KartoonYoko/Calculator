@@ -2,14 +2,21 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "../../Calculator/untitled/classes/calc/calc.h"
-//#include "../Calculator/classes/calc/calc.h"
+//#include "../../Calculator/untitled/classes/calc/calc.h"
+#include "../Calculator/classes/calc/calc.h"
 #include <QTextCursor>
+#include <vector>
 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+struct sHistory{
+    QString str;
+    double result;
+};
+
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +31,8 @@ public:
     QString str; // хранит вычесление
     bool firstOperation = true; // проверка на первую операцию
     bool exc = false; // для получения исключения
+    std::vector<sHistory> history; // хранит историю
+    bool isHistoryVisible = false;
 
 private slots:
     void on_pushButton_1_clicked();
@@ -74,7 +83,9 @@ private slots:
 
     void on_pushButton_tan_clicked();
 
-    void on_pushButton_clearOneLetter_clicked();
+    void on_pushButton_backSpace_clicked();
+
+    void on_pushButton_history_clicked();
 
 private:
     Ui::MainWindow *ui;
